@@ -9,8 +9,8 @@ Inspirado na mecânica do Flappy Bird, onde você deve desviar de obstáculos en
 Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a mesma velocidade. Ideal para jogadores que desejam praticar e se familiarizar com os controles e mecânicas antes de encarar o desafio completo do modo Infinito.
 
 # **Créditos**
-- **Engine**: Desenvolvida por [DanielSant0s](https://github.com/DanielSant0s).
-- **Motor gráfico**: [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv).
+- **Engine**: Desenvolvida por [DanielSant0s](https://github.com/DanielSant0s)
+- **Motor gráfico**: [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv)
 - **Versão original**: Criando por [JSLegendDev](https://github.com/JSLegendDev) **Game**: [Play Game](https://jslegend.itch.io/sonic-ring-run)
 - **Font Usanda** : https://www.dafont.com/mania.font
-- **Desenvolvimento Atual**: Dev Will
+- **Versão Atual**: Criando por mim [Dev Will](https://github.com/DevWill-hub)
