@@ -1,1 +1,1 @@
-# Sonic-themed endless runner adapted for AthenaEnv
+# Sonic themed Infinite Runner PS2
