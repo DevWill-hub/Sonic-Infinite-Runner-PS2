@@ -396,12 +396,6 @@ const gameOverDraw = () => {
   fontScala1.print(posXTitle, posYTitle, "GAME OVER");
   fontScala1.print(320 - 100, 150, `SCORE FINAL: ${finalScore}`);
 
-/*
-  if (currentGameMode === gameModes.INFINITE) {
-    fontScala1.print(320 - 150, 180, `RECORDE: ${getHighScore()}`);
-  }
-*/
-
   fontScala2.print(320 - 111, 200, "Press Start/Touch to Play Again");
 
   if (pad.justPressed(Pads.START)) {
