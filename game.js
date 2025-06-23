@@ -1,3 +1,4 @@
+import { SoundManager } from "./src/Modules/SoundManager.js";
 import { Sprite } from "./src/Modules/sprite.js";
 
 let fontScala1 = new Font("src/Fonts/mania.ttf");
@@ -283,6 +284,7 @@ const jogandoDraw = () => {
 
   if ((pad.btns & Pads.CROSS) && player.y + player.altura >= player.floor) {
     player.velocidadeY = player.forcaPulo;
+    SoundManager.playEffect("src/Sounds/sfx/jump.adp");
   }
 
   player.velocidadeY += player.gravidade;
@@ -326,6 +328,7 @@ const jogandoDraw = () => {
       ) {
         ring.coletada = true;
         ringsColetadas++;
+        SoundManager.playEffect("src/Sounds/sfx/ring.adp");
       }
     }
 
@@ -361,6 +364,7 @@ const jogandoDraw = () => {
         player.y + player.altura > inimigo.y
       ) {
         if (player.y + player.altura - 5 < inimigo.y) {
+          SoundManager.playEffect("src/Sounds/sfx/destroy.adp");
           ringsColetadas += 10;
           inimigo.vivo = false;
           player.velocidadeY = player.forcaPulo * 0.7;
@@ -385,6 +389,8 @@ const jogandoDraw = () => {
 
   animations[current].update();
   animations[current].draw();
+  
+  SoundManager.playMusic("src/Sounds/city.wav", 70, true);
 };
 
 
