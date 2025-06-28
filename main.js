@@ -1,7 +1,7 @@
 import { Game } from './src/game.js';
 
-function initGame() {
+function init() {
   Game.start();
 }
 
-initGame();
+init();
