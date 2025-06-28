@@ -2,6 +2,14 @@ import { MenuPrincipal, MenuSecundario } from './scenes/menu.js';
 import { GamePlay } from './scenes/gamePlay.js';
 import { GameOver } from './scenes/gameOver.js';
 
+const videoMode = Screen.getMode();
+videoMode.width = 640;
+videoMode.height = 448;
+videoMode.double_buffering = true;
+Screen.setMode(videoMode);
+Screen.setVSync(true);
+Screen.setFrameCounter(true);
+
 export const gameStates = {
   menu_principal: "MenuParte1",
   menu_secundario: "MenuParte2",
@@ -22,7 +30,9 @@ class GameManager {
   }
 
   start() {
-    Screen.display(() =>{
+    while (true) {
+      Screen.clear();
+
       this.pad.update();
 
       switch (this.currentStates) {
@@ -43,7 +53,9 @@ class GameManager {
           GameOver.render();
           break;
       }
-    });
+
+      Screen.flip();
+    }
   }
 }
 
