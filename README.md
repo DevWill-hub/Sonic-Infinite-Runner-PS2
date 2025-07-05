@@ -16,9 +16,9 @@ Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a
 | **Botão** | **Função** |
 |--|--|
 | <kbd>X</kbd> | Pular |
-| <kbd>start</kbd> | Confimar Opção |
 | <kbd>▲</kbd> | Selecionar Opção |
 | <kbd>▼</kbd> | Selecionar Opção |
+| <kbd>start</kbd> | Confimar Opção |
 
 ## **Créditos**
 - **Engine**: Desenvolvida por [DanielSant0s](https://github.com/DanielSant0s)
