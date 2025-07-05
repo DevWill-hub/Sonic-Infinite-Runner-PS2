@@ -12,5 +12,5 @@ Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a
 - **Engine**: Desenvolvida por [DanielSant0s](https://github.com/DanielSant0s)
 - **Motor gráfico**: [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv)
 - **Versão original**: Criando por [JSLegendDev](https://github.com/JSLegendDev) Game: [Play Game](https://jslegend.itch.io/sonic-ring-run)
-- **Font Usanda** : https://www.dafont.com/mania.font
+- **Font Usanda** : [mania_font](https://www.dafont.com/mania.font).
 - **Versão Atual**: Criando por mim [Dev Will](https://github.com/DevWill-hub)
