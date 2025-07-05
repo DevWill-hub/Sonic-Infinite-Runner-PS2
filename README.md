@@ -10,13 +10,17 @@ Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a
 
 ## **Status**
 - 95%: Completo.
-- 5%: Um polimento a mais no projeto.
+- 5%: Melhorias a mais no projeto.
 
 ## **Controles**
+
+| **Botão** | **Função** |
+|--|--|
+| <kbd>X</kbd> | Jump | 
 
 ## **Créditos**
 - **Engine**: Desenvolvida por [DanielSant0s](https://github.com/DanielSant0s)
 - **Motor gráfico**: [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv)
 - **Versão original**: Criando por [JSLegendDev](https://github.com/JSLegendDev) Game: [Play Game](https://jslegend.itch.io/sonic-ring-run)
-- **Font** : [mania font](https://www.dafont.com/mania.font)
+- **Font** : [ManiaFont](https://www.dafont.com/mania.font)
 - **Versão Atual**: Criando por mim [Dev Will](https://github.com/DevWill-hub)
