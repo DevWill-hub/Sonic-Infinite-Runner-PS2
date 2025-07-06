@@ -19,7 +19,8 @@ Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a
 | <kbd>start</kbd> | Confimar Opção |
 
 ## **Status do Projeto**
-**Jogabilidade Principal** → 95%
+
+**Jogabilidade Principal:** 95%
 
 ## **Créditos**
 
