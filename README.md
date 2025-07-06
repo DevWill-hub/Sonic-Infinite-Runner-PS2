@@ -20,7 +20,7 @@ Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a
 | <kbd>start</kbd> | Confimar Opção |
 
 ## **Créditos**
-- **Engine**: [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv) de [DanielSant0s](https://github.com/DanielSant0s)
+- **Engine**: [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv) de [DanielSantos](https://github.com/DanielSant0s)
 - **Versão original**: Criando por [JSLegendDev](https://github.com/JSLegendDev) | [PlayOriginal](https://jslegend.itch.io/sonic-ring-run)
 - **Font** : [ManiaFont](https://www.dafont.com/mania.font)
 - **Versão Atual**: Criando por mim [Dev Will](https://github.com/DevWill-hub)
