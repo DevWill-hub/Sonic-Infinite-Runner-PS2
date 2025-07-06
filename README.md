@@ -22,6 +22,9 @@ Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a
 
 **Jogabilidade Principal:** 95%
 
+**Melhorias(fundos, codigos é etc):** 97%
+
+
 ## **Créditos**
 
 - **Engine**: [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv) de [DanielSantos](https://github.com/DanielSant0s)
