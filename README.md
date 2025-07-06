@@ -20,9 +20,9 @@ Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a
 
 ## **Status do Projeto**
 
-####**Jogabilidade Principal:** 95%
+**Jogabilidade Principal:** 95%.
 
-####**Melhorias(fundos, códigos é etc):** 97%
+**Melhorias(fundos, códigos é etc):** 97%.
 
 
 ## **Créditos**
