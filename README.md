@@ -1,5 +1,5 @@
 # **Sonic themed Infinite Runner PS2**
-Um jogo de plataforma baseado em um minigame existente, criado para praticar JavaScript/TypeScript com uma das franquias mais icônicas da Sega.
+Um jogo de plataforma baseado de um minijogo existente, criado para praticar JavaScript/TypeScript com uma das franquias mais icônicas da Sega.
 
 **O jogo conta com dois modos distintos:**
 - **Modo Infinito:**  
