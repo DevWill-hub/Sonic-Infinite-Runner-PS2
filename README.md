@@ -8,16 +8,16 @@ Inspirado na mecânica do Flappy Bird, onde você deve desviar de obstáculos en
 - **Modo Normal:**  
 Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a mesma velocidade. Ideal para jogadores que desejam praticar e se familiarizar com os controles e mecânicas antes de encarar o desafio completo do modo Infinito.
 
-### **Status**
-- 95%: Completo.
-
-### **Controles**
+- **Controles:**
 | **Botão** | **Função** |
 |--|--|
 | <kbd>X</kbd> | Pular |
 | <kbd>▲</kbd> | Selecionar Opção |
 | <kbd>▼</kbd> | Selecionar Opção |
 | <kbd>start</kbd> | Confimar Opção |
+
+- **Status:**
+95%: Completo.
 
 ## **Créditos**
 - **Engine**: [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv) de [DanielSantos](https://github.com/DanielSant0s)
