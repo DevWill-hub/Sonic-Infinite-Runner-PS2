@@ -14,6 +14,7 @@ Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a
 ## **Como Jogar?**
 
 No emulador ative *Sistema de Arquivos do Host* em Configurações > Emulação.
+<img src="assets/" width="600" alt="Tutorial">
 
 ## **Controles**
 
