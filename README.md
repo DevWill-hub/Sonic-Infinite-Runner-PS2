@@ -11,7 +11,7 @@ Inspirado na mecânica do Flappy Bird/T-Rex Game, onde você deve desviar de obs
 - **Modo Normal:**  
 Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a mesma velocidade. Ideal para jogadores que desejam praticar e se familiarizar com os controles e mecânicas antes de encarar o desafio completo do modo Infinito.
 
-## **Como Jogar?
+## **Como Jogar?**
 
 No emulador ative *Sistema de Arquivos do Host* em Configurações > Emulação.
 
