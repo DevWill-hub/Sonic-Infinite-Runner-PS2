@@ -1,5 +1,7 @@
 # **Sonic themed Infinite Runner PS2**
-Um jogo de plataforma baseado de um minijogo existente, criado para praticar JavaScript/TypeScript com uma das franquias mais icônicas da Sega.
+Um jogo de corrida infinita no estilo do icônico ouriço azul. Inspirado no "T-Rex Game" do Chrome, mas com a velocidade e os anéis do Sonic.
+
+Um projeto originalmente criado em **JavaScript/TypeScript**, recriando para a engine AthenaEnv trazendo a experiência de um *endless runner* simples, porém, com mecânicas inspiradas nos clássicos do Sonic.
 
 ### **O jogo conta com dois modos distintos:**
 
