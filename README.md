@@ -13,7 +13,7 @@ Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a
 
 ## **Como Jogar?**
 
-- No emulador ative *Sistema de Arquivos do Host* em Configurações > Emulação.
+- No emulador **PCSX2:** ative *Sistema de Arquivos do Host* em Configurações > Emulação.
 - Em seguinda execute o `athena.elf`.
 
 <img src="assets/tutorialhostfs.png" width="500" alt="Tutorial">
