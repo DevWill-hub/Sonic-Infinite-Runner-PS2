@@ -15,7 +15,7 @@ Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a
 
 No emulador ative *Sistema de Arquivos do Host* em Configurações > Emulação.
 
-<img src="assets/tutorialhostfs.png" width="400" alt="Tutorial">
+<img src="assets/tutorialhostfs.png" width="500" alt="Tutorial">
 
 ## **Controles**
 
