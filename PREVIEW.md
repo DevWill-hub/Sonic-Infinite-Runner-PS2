@@ -12,10 +12,10 @@
 ## Screenshots
 
 ### Menu Principal
-![Menu Principal](screenshots/main-menu.png)
+<img src="screenshots/main-menu.png" width="400" alt="Menu Principal">
 
 #### Dia
-![Dia](screenshots/day-bg.png)
+<img src="screenshots/day-bg.png" width="400" alt="Dia">
 
 #### Noite
-![Noite](screenshots/night-bg.png)
+<img src="screenshots/night-bg.png" width="400" alt="Noite">
