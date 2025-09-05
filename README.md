@@ -1,43 +1,57 @@
-# **Sonic themed Infinite Runner PS2**
-Um jogo de corrida infinita no estilo do icônico ouriço azul. Inspirado no "T-Rex Game" do Chrome, mas com a velocidade e os anéis do Sonic.
+<h1 align="center">Sonic themed Infinite Runner PS2</h1>
 
-Um projeto originalmente criado em **JavaScript/TypeScript**, recriando para a engine [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv) trazendo a experiência de um *endless runner* simples, porém, com mecânicas inspiradas nos clássicos jogos do Sonic.
+### Sobre
 
-### **O jogo conta com dois modos distintos:**
+Um jogo de corrida infinita no estilo do icônico ouriço azul. Inspirado no “T‑Rex Game” do Chrome, mas com a velocidade e os anéis do Sonic.
 
-- **Modo Infinito:**  
-Inspirado na mecânica do Flappy Bird/T-Rex Game, onde você deve desviar de obstáculos enquanto coleta pontos. A dificuldade aumenta progressivamente, com a velocidade do jogo se tornando mais intensa conforme você avança, testando cada vez mais seus reflexos e habilidades.
+Projeto originalmente criado em **JavaScript & TypeScript** com a biblioteca [Kaplayjs](https://github.com/kaplayjs/kaplay), recriado para a engine [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv), trazendo a experiência de um endless runner simples, porém com mecânicas inspiradas nos clássicos jogos do Sonic.
 
-- **Modo Normal:**  
-Funciona como uma versão infinita sem aumento de dificuldade, mantendo sempre a mesma velocidade. Ideal para jogadores que desejam praticar e se familiarizar com os controles e mecânicas antes de encarar o desafio completo do modo Infinito.
+### O jogo conta com dois modos distintos
 
-## **Como Jogar?**
+- **Modo Infinito**  
+  Inspirado na mecânica de Flappy Bird/T‑Rex Game: desvie de obstáculos enquanto coleta pontos. A dificuldade aumenta progressivamente, com a velocidade do jogo se intensificando conforme o avanço, exigindo reflexos cada vez mais apurados.
 
-- No emulador **PCSX2:** Ative *Sistema de Arquivos do Host* em Configurações > Emulação.
-- Em seguinda execute o `athena.elf`, na pasta que você baixou o jogo.
+- **Modo Normal**  
+  Versão infinita sem aumento de dificuldade, mantendo velocidade constante. Ideal para praticar e se familiarizar com controles e mecânicas antes de encarar o modo Infinito.
 
-<img src="assets/tutorialhostfs.png" width="500" alt="Tutorial">
+[![🎮 Game Preview](https://img.shields.io/badge/🎮-Game_Preview-blue?style=for-the-badge&logo=AthenaEnv&logoColor=white)](PREVIEW.md)
 
-- No hardwere original execute normalmente o `athena.elf` com o **uLaunchELF**.
+## Como Jogar?
 
-## **Controles**
+- No emulador **PCSX2**: ative “Sistema de Arquivos do Host” em Configurações > Emulação.  
+  Em seguida, execute o `athena.elf` na pasta do jogo.
 
-| **Botão** | **Função** |
-|--|--|
-| <kbd>X</kbd> | Pular |
-| <kbd>▲</kbd> | Selecionar Opção |
-| <kbd>▼</kbd> | Selecionar Opção |
-| <kbd>start</kbd> | Confimar Opção |
+<img src="assets/tutorialhostfs.png" width="500" alt="Tutorial de Host FS no PCSX2">
 
-## **Status do Projeto**
+- No hardware original: execute o `athena.elf` normalmente via **uLaunchELF**.
 
-- **Jogabilidade Principal:** 95%.
-- **Melhorias(fundos, códigos é etc):** 97%.
+## Controles
 
+| Botão | Função            |
+|------:|-------------------|
+| X     | Pular             |
+| ▲     | Selecionar opção  |
+| ▼     | Selecionar opção  |
+| START | Confirmar opção   |
 
-## **Créditos**
+## Status do Projeto
 
-- **Engine**: [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv) de [DanielSantos](https://github.com/DanielSant0s)
-- **Versão original**: Criando por [JSLegendDev](https://github.com/JSLegendDev) | [PlayOriginal](https://jslegend.itch.io/sonic-ring-run)
-- **Font usanda**: [ManiaFont](https://www.dafont.com/mania.font)
-- **Versão atual**: Criando por mim [Dev Will](https://github.com/DevWill-hub)
+- Jogabilidade principal: 100%
+- Melhorias (fundos, código, etc.): 100%
+- Estado: finalizado nesta versão (v1.8.4)
+
+## Links
+- (**Play-Game-Web**) https://jslegend.itch.io/sonic-ring-run
+
+- (**Gameplay(Tutorial)-Youtube-Web**) https://youtu.be/pAoXi98iJJ4?si=_AZ0OcRQht6ymp7d
+
+- (**Githud Versão(Web)**) https://github.com/JSLegendDev/sonic-runner
+
+- (**Githud Versão(PS2)**) https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2
+
+## Créditos
+
+- [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv): engine utilizada para a criação de aplicativos e jogos em JS para o PlayStation 2, por [DanielSantos](https://github.com/DanielSant0s).
+- Versão original(Web): criada por [JSLegendDev](https://github.com/JSLegendDev)
+- Fonte utilizada: [ManiaFont](https://www.dafont.com/mania.font)
+- Versão(PS2): desenvolvida por mim [Dev Will](https://github.com/DevWill-hub)
