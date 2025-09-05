@@ -6,6 +6,8 @@ Um jogo de corrida infinita no estilo do icônico ouriço azul. Inspirado no “
 
 Projeto originalmente criado em **JavaScript & TypeScript** com a biblioteca [Kaplayjs](https://github.com/kaplayjs/kaplay), recriado para a engine [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv), trazendo a experiência de um endless runner simples, porém com mecânicas inspiradas nos clássicos jogos do Sonic.
 
+[![🎮 Game Preview](https://img.shields.io/badge/🎮-Game_Preview-blue?style=for-the-badge&logo=AthenaEnv&logoColor=white)](PREVIEW.md)
+
 ### O jogo conta com dois modos distintos
 
 - **Modo Infinito**  
@@ -13,8 +15,6 @@ Projeto originalmente criado em **JavaScript & TypeScript** com a biblioteca [Ka
 
 - **Modo Normal**  
   Versão infinita sem aumento de dificuldade, mantendo velocidade constante. Ideal para praticar e se familiarizar com controles e mecânicas antes de encarar o modo Infinito.
-
-[![🎮 Game Preview](https://img.shields.io/badge/🎮-Game_Preview-blue?style=for-the-badge&logo=AthenaEnv&logoColor=white)](PREVIEW.md)
 
 ## Como Jogar?
 
@@ -41,6 +41,7 @@ Projeto originalmente criado em **JavaScript & TypeScript** com a biblioteca [Ka
 - Estado: finalizado nesta versão (v1.8.4)
 
 ## Links
+
 - (**Play-Game-Web**) https://jslegend.itch.io/sonic-ring-run
 
 - (**Gameplay(Tutorial)-Youtube-Web**) https://youtu.be/pAoXi98iJJ4?si=_AZ0OcRQht6ymp7d
