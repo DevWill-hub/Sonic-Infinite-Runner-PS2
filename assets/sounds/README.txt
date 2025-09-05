@@ -1,0 +1,1 @@
+Você pode encontrar os Souds no *Releases*, das Versões disponíveis.
