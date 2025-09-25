@@ -274,7 +274,7 @@ const MainMenu = {
             selection = (selection + 1) % this.buttons.length;
         }
         
-        if (pad.justPressed(Pads.CROSS)) {
+        if (pad.justPressed(Pads.START)) {
             if (selection === 0) {
                 currentGameMode = gameModes.infinity;
             } else {
