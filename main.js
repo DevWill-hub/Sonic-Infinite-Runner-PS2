@@ -1,123 +1,220 @@
+/*******************************************************************************
+ * 
+ * SONIC INFINITY RUNNER - PS2
+ * 
+ * SOURCE CODE
+ * 
+ * DEVOLOPED WITH: AthenaEnv Engine
+ * DEVELOPED BY: Dev Will
+ * BASED ON: Sonic Run by JSLegendDev
+ * SONIC CHARACTER © SEGA
+ * 
+ * FAN GAME - NOT FOR COMMERCIAL USE
+ * 
+ ******************************************************************************/
+
+// === IMPORTS ===
 import { SceneManager } from "./src/core/scenemanager.js";
 import { getText, font } from "./src/utils/getFont.js";
 import { Sprite } from "./src/utils/sprite.js";
 import { canvas } from "./src/core/canvas.js";
 
+// === INITIALIZATION ===
 canvas.init();
 
-// ===> sounds <===
-
-// Stream
-const city = Sound.Stream("assets/sounds/music/city.wav");
-
-// Sfx
-const destroy = Sound.Sfx("assets/sounds/sfx/destroy.adp");
-const jumpSfx = Sound.Sfx("assets/sounds/sfx/jump.adp");
-const ringSfx = Sound.Sfx("assets/sounds/sfx/ring.adp");
-
-// ===> const <===
-
+// === GAME CONSTANTS ===
 const GAME_CONSTANTS = {
     PLAYER_JUMP_FORCE: -10,
-    GRAVITY: 0.3f,
-    FROOR_Y: 369,
+    GRAVITY: 0.3,
+    FLOOR_Y: 369,
     RING_SIZE: { width: 20, height: 20 },
     DIFFICULTY_INCREASE_INTERVAL: 3000000,
     DAY_NIGHT_CYCLE: 120000000,
-    TRANSITION_DURATION: 5000000
+    TRANSITION_DURATION: 5000000,
+    SCREEN_WIDTH: 640,
+    SCREEN_HEIGHT: 448
 };
 
+// === SOUND SYSTEM ===
+class SoundManager {
+    constructor() {
+        this.music = {
+            city: Sound.Stream("assets/sounds/music/city.wav")
+        };
+        
+        this.sfx = {
+            destroy: Sound.Sfx("assets/sounds/sfx/destroy.adp"),
+            jump: Sound.Sfx("assets/sounds/sfx/jump.adp"),
+            ring: Sound.Sfx("assets/sounds/sfx/ring.adp")
+        };
+        
+        this.isMuted = false;
+    }
+    
+    playMusic(track) {
+        if (!this.isMuted && this.music[track]) {
+            this.music[track].play();
+        }
+    }
+    
+    playSfx(sound) {
+        if (!this.isMuted && this.sfx[sound]) {
+            this.sfx[sound].play();
+        }
+    }
+    
+    pauseMusic() {
+        Object.values(this.music).forEach(track => track.pause());
+    }
+    
+    toggleMute() {
+        this.isMuted = !this.isMuted;
+        if (this.isMuted) {
+            this.pauseMusic();
+        }
+    }
+}
+
+const soundManager = new SoundManager();
+
+// === INPUT MANAGER ===
 const pad = Pads.get();
 
+// === PLAYER CONFIGURATION ===
 const player = {
     x: 60,
     y: 322,
-    floor: GAME_CONSTANTS.FROOR_Y,
-    largura: 42,
-    altura: 47,
-    velocidadeX: 0,
-    velocidadeY: 0,
-    gravidade: GAME_CONSTANTS.GRAVITY,
-    forcaPulo: GAME_CONSTANTS.PLAYER_JUMP_FORCE
+    floor: GAME_CONSTANTS.FLOOR_Y,
+    width: 42,
+    height: 47,
+    velocityX: 0,
+    velocityY: 0,
+    gravity: GAME_CONSTANTS.GRAVITY,
+    jumpForce: GAME_CONSTANTS.PLAYER_JUMP_FORCE,
+    isGrounded: true
 };
 
-const gameModes = {
-    normal: "normal",
-    infinity: "infinite"
+// === GAME MODES ===
+const GAME_MODES = {
+    NORMAL: "normal",
+    INFINITE: "infinite"
 };
 
-const animations = {
-  sonicRun: new Sprite("assets/sprites/sonic/sonic.png", player.x, player.y, [
-    {
-      imageOffsetX: 0,
-      imageOffsetY: 8,
-      widthPerImage: 32,
-      heightPerImage: 36,
-      imagesLength: 8
+// === ANIMATION MANAGER ===
+class AnimationManager {
+    constructor() {
+        this.animations = {
+            sonicRun: this.createSonicRun(),
+            sonicJump: this.createSonicJump(),
+            ringsAnim: this.createRingsAnim(),
+            motoBugAnim: this.createMotoBugAnim()
+        };
     }
-  ], false, 50),
-
-  sonicJump: new Sprite("assets/sprites/sonic/sonic.png", player.x, player.y, [
-    {
-        imageOffsetX: 0,
-        imageOffsetY: 53,
-        widthPerImage: 32,
-        heightPerImage: 31,
-        imagesLength: 8
+    
+    createSonicRun() {
+        const sprite = new Sprite("assets/sprites/sonic/sonic.png", player.x, player.y, [
+            {
+                imageOffsetX: 0,
+                imageOffsetY: 8,
+                widthPerImage: 32,
+                heightPerImage: 36,
+                imagesLength: 8
+            }
+        ], false, 50);
+        sprite.setSize(42, 47);
+        return sprite;
     }
-  ], false, 50),
-
-  ringsAnim: new Sprite("assets/sprites/items/ring.png", 0, 0, [
-    {
-        imageOffsetX: 0,
-        imageOffsetY: 0,
-        widthPerImage: 17,
-        heightPerImage: 16,
-        imagesLength: 16
+    
+    createSonicJump() {
+        const sprite = new Sprite("assets/sprites/sonic/sonic.png", player.x, player.y, [
+            {
+                imageOffsetX: 0,
+                imageOffsetY: 53,
+                widthPerImage: 32,
+                heightPerImage: 31,
+                imagesLength: 8
+            }
+        ], false, 50);
+        sprite.setSize(42, 42);
+        return sprite;
     }
-  ], false, 50),
-
-  motoBugAnim: new Sprite("assets/sprites/enemies/motobug.png", 0, 0, [
-    {
-        imageOffsetX: 0,
-        imageOffsetY: 1,
-        widthPerImage: 48,
-        heightPerImage: 29,
-        imagesLength: 5
+    
+    createRingsAnim() {
+        const sprite = new Sprite("assets/sprites/items/ring.png", 0, 0, [
+            {
+                imageOffsetX: 0,
+                imageOffsetY: 0,
+                widthPerImage: 17,
+                heightPerImage: 16,
+                imagesLength: 16
+            }
+        ], false, 50);
+        sprite.setSize(20, 19);
+        return sprite;
     }
-  ], false, 100),
-};
+    
+    createMotoBugAnim() {
+        const sprite = new Sprite("assets/sprites/enemies/motobug.png", 0, 0, [
+            {
+                imageOffsetX: 0,
+                imageOffsetY: 1,
+                widthPerImage: 48,
+                heightPerImage: 29,
+                imagesLength: 5
+            }
+        ], false, 100);
+        sprite.setSize(53, 32);
+        return sprite;
+    }
+    
+    getAnimation(name) {
+        return this.animations[name];
+    }
+    
+    updateAnimation(name, x, y) {
+        const anim = this.animations[name];
+        if (anim) {
+            anim.x = x;
+            anim.y = y;
+            anim.update();
+        }
+    }
+    
+    drawAnimation(name) {
+        const anim = this.animations[name];
+        if (anim) {
+            anim.draw();
+        }
+    }
+}
 
-animations.sonicRun.setSize(42, 47);
-animations.sonicJump.setSize(42, 42);
+const animationManager = new AnimationManager();
 
-animations.ringsAnim.setSize(20, 19);
-animations.motoBugAnim.setSize(53, 32);
-
-const dayNightSystem = {
-    dayBackground: new Image("assets/bg/bg1.png"),
-    nightBackground: new Image("assets/bg/bg3.png"),
+// === DAY/NIGHT SYSTEM ===
+class DayNightSystem {
+    constructor() {
+        this.dayBackground = new Image("assets/bg/bg1.png");
+        this.nightBackground = new Image("assets/bg/bg3.png");
+        
+        this.cycleDuration = GAME_CONSTANTS.DAY_NIGHT_CYCLE;
+        this.transitionDuration = GAME_CONSTANTS.TRANSITION_DURATION;
+        
+        this.timer = Timer.new();
+        this.startTime = Timer.getTime(this.timer);
+        
+        this.isNightTime = false;
+        this.transitioning = false;
+        this.transitionAlpha = 0;
+        
+        this.initBackgrounds();
+    }
     
-    cycleDuration: 60000000,
-    
-    timer: null,
-    startTime: 0,
-    isNightTime: false,
-    
-    transitioning: false,
-    transitionAlpha: 0,
-    transitionSpeed: 0.5,
-    transitionDuration: GAME_CONSTANTS.TRANSITION_DURATION,
-    
-    init() {
+    initBackgrounds() {
         this.dayBackground.width = 1163;
         this.dayBackground.height = 448;
         this.nightBackground.width = 1163;
         this.nightBackground.height = 448;
-
-        this.timer = Timer.new();
-        this.startTime = Timer.getTime(this.timer);
-    },
+    }
     
     update() {
         const currentTime = Timer.getTime(this.timer);
@@ -127,7 +224,6 @@ const dayNightSystem = {
             this.isNightTime = !this.isNightTime;
             this.transitioning = true;
             this.transitionAlpha = 0;
-
             this.startTime = currentTime;
         }
         
@@ -139,7 +235,7 @@ const dayNightSystem = {
                 this.transitioning = false;
             }
         }
-    },
+    }
     
     draw(x, y) {
         if (this.isNightTime) {
@@ -159,475 +255,238 @@ const dayNightSystem = {
                 this.nightBackground.color = Color.new(125, 125, 125);
             }
         }
-    },
-
+    }
+    
     drawRepeated(x, y, width) {
         this.draw(x, y);
         this.draw(x + width, y);
         
-        if (x < -width/2) {
+        if (x < -width / 2) {
             this.draw(x + (width * 2), y);
         }
     }
-};
-
-const parallaxLayers = [
-    {
-        useDayNightSystem: true,
-        speed: 0.5,
-        x: 0,         
-        y: 0,
-        width: 1163
-    },
-    {
-        image: new Image("assets/bg/bg2.png"),
-        speed: 1.5,  
-        x: 0,         
-        y: 369,
-        width: 790
+    
+    setCycleDuration(duration) {
+        this.cycleDuration = duration;
     }
-];
+    
+    reset() {
+        this.isNightTime = false;
+        this.transitioning = false;
+        this.startTime = Timer.getTime(this.timer);
+        this.cycleDuration = GAME_CONSTANTS.DAY_NIGHT_CYCLE;
+    }
+}
 
-parallaxLayers[1].image.width = 790;
-parallaxLayers[1].image.height = 79;
+const dayNightSystem = new DayNightSystem();
 
-dayNightSystem.init();
-
-const parallaxRenderer = {
+// === PARALLAX SYSTEM ===
+class ParallaxSystem {
+    constructor() {
+        this.layers = [
+            {
+                useDayNightSystem: true,
+                speed: 0.5,
+                x: 0,
+                y: 0,
+                width: 1163
+            },
+            {
+                image: new Image("assets/bg/bg2.png"),
+                speed: 1.5,
+                x: 0,
+                y: 369,
+                width: 790
+            }
+        ];
+        
+        this.initLayers();
+    }
+    
+    initLayers() {
+        // Configure second layer
+        this.layers[1].image.width = 790;
+        this.layers[1].image.height = 79;
+    }
+    
     update() {
         dayNightSystem.update();
         
-        parallaxLayers.forEach(layer => {
+        this.layers.forEach(layer => {
             layer.x -= layer.speed;
             layer.x = layer.x % layer.width;
         });
-    },
-
+    }
+    
     draw() {
-        parallaxLayers.forEach(layer => {
+        this.layers.forEach(layer => {
             if (layer.useDayNightSystem) {
                 dayNightSystem.drawRepeated(layer.x, layer.y, layer.width);
             } else {
                 layer.image.draw(layer.x, layer.y);
                 layer.image.draw(layer.x + layer.width, layer.y);
                 
-                if (layer.x < -layer.width/2) {
+                if (layer.x < -layer.width / 2) {
                     layer.image.draw(layer.x + (layer.width * 2), layer.y);
                 }
             }
         });
     }
+    
+    setLayerSpeed(layerIndex, speed) {
+        if (this.layers[layerIndex]) {
+            this.layers[layerIndex].speed = speed;
+        }
+    }
+    
+    reset() {
+        this.layers.forEach(layer => {
+            layer.x = 0;
+        });
+        this.setLayerSpeed(0, 0.5);
+        this.setLayerSpeed(1, 1.5);
+    }
 }
 
-dayNightSystem.cycleDuration = GAME_CONSTANTS.DAY_NIGHT_CYCLE;
+const parallaxSystem = new ParallaxSystem();
 
-const titleScreen = "SONIC RING RUN";
-const titleWidth = font.getTextSize(titleScreen);
-const posXTitle = (640 - titleWidth.width) / 2;
-const posYTitle = 100;
+// === UI CONSTANTS ===
+const UI = {
+    TITLE: "SONIC RING RUN",
+    TITLE_WIDTH: font.getTextSize("SONIC RING RUN").width,
+    getTitleX: () => (GAME_CONSTANTS.SCREEN_WIDTH - UI.TITLE_WIDTH) / 2,
+    TITLE_Y: 100
+};
 
-// ===> let <===
-
-let gameSpeed = 1.0;
-let scoreMultiplier = 1;
-let difficultyInterval = GAME_CONSTANTS.DIFFICULTY_INCREASE_INTERVAL;
-let timer = Timer.new();
-let lastDifficultyIncrease = Timer.getTime(timer);
-
-let selection = 0;
-let ringsColetadas = 0;
-let current = "sonicRun";
-
-let currentGameMode = gameModes.normal;
-
-let rings = [
-    { x: 182, y: 326, coletada: false },
-    { x: 340, y: 326, coletada: false },
-    { x: 486, y: 326, coletada: false }
-];
-
-let inimigos = [
-    { x: 640, y: 337, largura: 53, altura: 32, velocidade: 1.9, vivo: true },
-    { x: 815, y: 337, largura: 53, altura: 32, velocidade: 1.9, vivo: true },
-    { x: 990, y: 337, largura: 53, altura: 32, velocidade: 1.9, vivo: true }
-];
-
-// ===> game scenes <===
-
-const MainMenu = {
-    buttons: [],
-
-    init() {
-        this.buttons = ["Start Infinite", "Start Normal"];
-    },
-    
-    update() {
-        if (!pad) return;
-
-        pad.update();
-
-        if (pad.justPressed(Pads.UP)) {
-            selection = (selection - 1 + this.buttons.length) % this.buttons.length;
-        }
-
-        if (pad.justPressed(Pads.DOWN)) {
-            selection = (selection + 1) % this.buttons.length;
-        }
+// === GAME STATE ===
+class GameState {
+    constructor() {
+        this.gameSpeed = 1.0;
+        this.scoreMultiplier = 1;
+        this.difficultyInterval = GAME_CONSTANTS.DIFFICULTY_INCREASE_INTERVAL;
+        this.timer = Timer.new();
+        this.lastDifficultyIncrease = Timer.getTime(this.timer);
         
-        if (pad.justPressed(Pads.START)) {
-            if (selection === 0) {
-                currentGameMode = gameModes.infinity;
-            } else {
-                currentGameMode = gameModes.normal;
-            }
-
-            SceneManager.change("menu-secondary");
-        }
-    },
-
-    render() {
-        getText("Sonic is by SEGA", 0, 0, {
-            scale: 0.5f,
-        });
-
-        getText("This is a fangame made by Dev Will using by expiration Sonic Run made by JSLegandDev", 0, 15, {
-            scale: 0.5f,
-        });
-
-        drawMenu(font, this.buttons, selection, 362);
-    },
-    
-    exit() {
-        selection = 0;
-    }
-};
-
-const SecondaryMenu = {
-    buttons: [],
-
-    init() {
-        this.buttons = ["Play", "Back"];
-        parallaxLayers[1].speed = 4.1;
-    },
-    
-    update() {
-        if (!pad) return;
-
-        pad.update();
-
-        if (pad.justPressed(Pads.UP)) {
-            selection = (selection - 1 + this.buttons.length) % this.buttons.length;
-        }
-
-        if (pad.justPressed(Pads.DOWN)) {
-            selection = (selection + 1) % this.buttons.length;
-        }
+        this.selection = 0;
+        this.ringsCollected = 0;
+        this.currentAnimation = "sonicRun";
+        this.currentGameMode = GAME_MODES.NORMAL;
         
-        if (pad.justPressed(Pads.START)) {
-            if (selection === 0) {
-                SceneManager.change("game-play");
-            } else {
-                SceneManager.change("menu-main");
-            }
-        }
-    },
-
-    render() {
-        parallaxRenderer.update();
-        parallaxRenderer.draw();
-
-        animations[current].x = player.x;
-        animations[current].y = player.y;
-
-        animations[current].update();
-        animations[current].draw();
-
-        getText("Press Start to Play", 256, 140, {
-            scale: 0.5f,
-        });
-
-        getText("Press X to Jump!", 262, 154, {
-            scale: 0.5f,
-        });
-
-        getText(titleScreen, posXTitle - 40, posYTitle, {
-            scale: 1.4f,
-        });
-
-        drawMenu(font, this.buttons, selection, 362);
-    },
-    
-    exit() {
-        parallaxLayers[1].speed = 1.5;
-
-        selection = 0;
+        this.rings = this.createInitialRings();
+        this.enemies = this.createInitialEnemies();
+        this.highScore = this.loadHighScore();
     }
-};
-
-const GameScene = {
     
-    init() {},
+    createInitialRings() {
+        return [
+            { x: 182, y: 326, collected: false },
+            { x: 340, y: 326, collected: false },
+            { x: 486, y: 326, collected: false }
+        ];
+    }
     
-    update() {
-        if (!pad) return;
-
-        pad.update();
+    createInitialEnemies() {
+        return [
+            { x: 640, y: 337, width: 53, height: 32, speed: 1.9, alive: true },
+            { x: 815, y: 337, width: 53, height: 32, speed: 1.9, alive: true },
+            { x: 990, y: 337, width: 53, height: 32, speed: 1.9, alive: true }
+        ];
+    }
+    
+    loadHighScore() {
+        // Implement high score loading logic here
+        return 0;
+    }
+    
+    saveHighScore() {
+        // Implement high score saving logic here
+    }
+    
+    getFinalScore() {
+        return Math.floor(this.ringsCollected * this.scoreMultiplier);
+    }
+    
+    reset() {
+        player.x = 60;
+        player.y = 322;
+        player.velocityX = 0;
+        player.velocityY = 0;
         
-        city.play();
-
-        if (currentGameMode === gameModes.infinity && 
-            Timer.getTime(timer) - lastDifficultyIncrease > difficultyInterval) {
-            increaseDifficulty();
-            lastDifficultyIncrease = Timer.getTime(timer);
-        }
-
-        if ((pad.btns & Pads.CROSS) && player.y + player.altura >= player.floor) {
-            player.velocidadeY = player.forcaPulo;
-            jumpSfx.play();
-        }
-
-        player.velocidadeY += player.gravidade;
-        player.x += player.velocidadeX * gameSpeed;
-        player.y += player.velocidadeY;
-
-        if (player.y + player.altura > player.floor) {
-            player.y = player.floor - player.altura;
-            player.velocidadeY = 0;
-        }
-
-        if (player.y + player.altura < player.floor) {
-            current = "sonicJump";
-        } else {
-            current = "sonicRun";
-        }
-    },
-
-    render() {
-        parallaxRenderer.update();
-        parallaxRenderer.draw();
-
-        font.print(10, 10, `SCORE : ${ringsColetadas}`);
-
-        for (let i = 0; i < rings.length; i++) {
-            let ring = rings[i];
-
-            if (!ring.coletada) {
-                animations.ringsAnim.x = ring.x;
-                animations.ringsAnim.y = ring.y;
-
-                animations.ringsAnim.update();
-                animations.ringsAnim.draw();
-
-                if (checkCollision(
-                    player, 
-                    ring, 
-                    { width: player.largura, height: player.altura },
-                    GAME_CONSTANTS.RING_SIZE
-                )) {
-                    ring.coletada = true;
-                    ringsColetadas++;
-                    ringSfx.play();
-                }
-            }
-
-            ring.x -= parallaxLayers[1].speed;
-            if (ring.x < -20) {
-                respawnRings(ring);
-            }
-        }
-
-        for (let i = 0; i < inimigos.length; i++) {
-            let inimigo = inimigos[i];
-
-            if (inimigo.vivo) {
-                animations.motoBugAnim.x = inimigo.x;
-                animations.motoBugAnim.y = inimigo.y;
-
-                animations.motoBugAnim.update();
-                animations.motoBugAnim.draw();
-
-                inimigo.x -= inimigo.velocidade;
-
-                if (inimigo.x < -50) {
-                    inimigo.vivo = false;
-                    respawnInimigo(inimigo);
-                }
-
-                if (checkCollision(
-                    player, 
-                    inimigo, 
-                    { width: player.largura, height: player.altura },
-                    { width: inimigo.largura, height: inimigo.altura }
-                )) {
-                    if (player.y + player.altura - 10 < inimigo.y) {
-                        destroy.play();
-                        ringsColetadas += 10;
-                        inimigo.vivo = false;
-                        player.velocidadeY = player.forcaPulo * 0.9f;
-                        respawnInimigo(inimigo);
-                    } else {
-                        SceneManager.change("game-over");
-                    }
-                }
-            }
-        }
-
-        animations[current].x = player.x;
-        animations[current].y = player.y;
-
-        animations[current].update();
-        animations[current].draw();
-    },
-
-    exit() {
-        city.pause();
-
-        if (typeof std !== "undefined" && std.gc) {
-            std.gc();
-        }
+        this.ringsCollected = 0;
+        this.gameSpeed = 1.0;
+        this.selection = 0;
+        this.scoreMultiplier = 1;
+        this.currentAnimation = "sonicRun";
+        
+        parallaxSystem.reset();
+        dayNightSystem.reset();
+        
+        this.enemies.forEach((enemy, index) => {
+            enemy.x = 640 + (index * 175);
+            enemy.alive = true;
+            enemy.speed = 1.8;
+        });
+        
+        this.rings.forEach((ring, index) => {
+            ring.x = 182 + (index * 158);
+            ring.collected = false;
+        });
+        
+        this.lastDifficultyIncrease = Timer.getTime(this.timer);
     }
-};
+}
 
-const GameOverScene = {
-    init() {
+const gameState = new GameState();
 
-    },
-
-    update() {
-        if (!pad) return;
-
-        pad.update()
-
-        if (pad.justPressed(Pads.START)) {
-            resetGame();
-            SceneManager.change("game-play");
-        }
-
-        if (pad.justPressed(Pads.SELECT)) {
-            resetGame();
-            SceneManager.change("menu-main");
-        }
-    },
-
-    render() {
-        const finalScore = Math.floor(ringsColetadas * scoreMultiplier);
-
-        Draw.rect(50, 150, 160, 160, Color.new(255, 255, 255));
-        Draw.rect(430, 150, 160, 160, Color.new(255, 255, 255));
-
-        Draw.rect(54, 154, 152, 152, Color.new(0, 0, 0));
-        Draw.rect(434, 154, 152, 152, Color.new(0, 0, 0));        
-
-        font.print(posXTitle + 20, posYTitle, "GAME OVER");
-
-        font.print(45, 120, `BEST SCORE : 0`);
-        font.print(405, 120, `CURRENT SCORE : ${finalScore}`);
-
-        getText("B                        F", 120, 210, {
-            scale: 1.5f,
-        });
-
-        getText("Press START to Play Again", 320 - 70, 300, {
-            scale: 0.5f,
-        });
-
-        getText("Press SELECT for Menu-Main", 320 - 77, 320, {
-            scale: 0.5f,
-        });
-    },
-
-    exit() {
-        city.pause();
-    }
-};
-
-// ===> functions <===
-
+// === UTILITY FUNCTIONS ===
 function drawMenu(font, items, selectedIndex, startY) {
-  const itemSpacing = 40;
-
-  items.forEach((item, index) => {
-    const yPos = startY + (index * itemSpacing);
-    const textWidth = font.getTextSize(item).width;
-    const xPos = 640 / 2 - textWidth / 2;
-
-    if (index === selectedIndex) {
-        const marker = ">";
-        const markerWidth = font.getTextSize(marker).width;
-        font.print(xPos - markerWidth - 15, yPos, marker);
-        font.print(xPos + textWidth + 10, yPos, "<");
-    }
-
-    font.print(xPos, yPos, item);
-  });
+    const itemSpacing = 40;
+    
+    items.forEach((item, index) => {
+        const yPos = startY + (index * itemSpacing);
+        const textWidth = font.getTextSize(item).width;
+        const xPos = GAME_CONSTANTS.SCREEN_WIDTH / 2 - textWidth / 2;
+        
+        if (index === selectedIndex) {
+            const marker = ">";
+            const markerWidth = font.getTextSize(marker).width;
+            font.print(xPos - markerWidth - 15, yPos, marker);
+            font.print(xPos + textWidth + 10, yPos, "<");
+        }
+        
+        font.print(xPos, yPos, item);
+    });
 }
 
 function increaseDifficulty() {
-  if (currentGameMode === gameModes.infinity) {
-    gameSpeed += 0.11;
-    scoreMultiplier += 0.1;
+    if (gameState.currentGameMode === GAME_MODES.INFINITE) {
+        gameState.gameSpeed += 0.11;
+        gameState.scoreMultiplier += 0.1;
+        
+        parallaxSystem.setLayerSpeed(0, 0.5 * gameState.gameSpeed);
+        parallaxSystem.setLayerSpeed(1, 1.5 * gameState.gameSpeed);
+        
+        gameState.enemies.forEach(enemy => {
+            enemy.speed = 1.8 * gameState.gameSpeed;
+        });
+        
+        const newCycleDuration = Math.max(30000000, 120000000 - (gameState.gameSpeed * 10000000));
+        dayNightSystem.setCycleDuration(newCycleDuration);
+    }
+}
 
-    parallaxLayers[0].speed = 0.5 * gameSpeed;
-    parallaxLayers[1].speed = 1.5 * gameSpeed;
+function respawnEnemy(enemy) {
+    if (!enemy) return;
     
-    inimigos.forEach(inimigo => {
-      inimigo.velocidade = 1.8 * gameSpeed;
-    });
-
-    dayNightSystem.cycleDuration = Math.max(30000000, 120000000 - (gameSpeed * 10000000));
-  }
+    enemy.x = 900 + Math.random() * 200;
+    enemy.alive = true;
 }
 
-function respawnInimigo(inimigo) {
-    if (!inimigo) return;
-
-    inimigo.x = 900 + Math.random() * 200;
-    inimigo.vivo = true;   
-}
-
-function respawnRings(ring) {
+function respawnRing(ring) {
     if (!ring) return;
-
-    ring.x = 640 + 50 + (Math.random() * 400)
-    ring.coletada = false;
-}
-
-function resetGame() {
-    player.x = 60;
-    player.y = 322;
-    player.velocidadeX = 0;
-    player.velocidadeY = 0;
-
-    ringsColetadas = 0;
-    gameSpeed = 1.0f;
-    selection = 0;
-    scoreMultiplier = 1;
-    current = "sonicRun";
-
-    parallaxLayers[0].speed = 0.5f;
-    parallaxLayers[1].speed = 1.5f;
     
-    if (dayNightSystem.timer) {
-        dayNightSystem.isNightTime = false;
-        dayNightSystem.transitioning = false;
-        dayNightSystem.startTime = Timer.getTime(dayNightSystem.timer);
-        dayNightSystem.cycleDuration = GAME_CONSTANTS.DAY_NIGHT_CYCLE;
-    }
-    
-    inimigos.forEach((inimigo, index) => {
-        inimigo.x = 640 + (index * 175);
-        inimigo.vivo = true;
-        inimigo.velocidade = 1.8f;
-    });
-
-    rings.forEach((ring, index) => {
-        ring.x = 182 + (index * 158);
-        ring.coletada = false;
-    });
-    
-    if (timer) {
-        lastDifficultyIncrease = Timer.getTime(timer);
-    }
+    ring.x = 640 + 50 + (Math.random() * 400);
+    ring.collected = false;
 }
 
 function checkCollision(obj1, obj2, size1, size2) {
@@ -639,17 +498,277 @@ function checkCollision(obj1, obj2, size1, size2) {
     );
 }
 
-// ===> SceneManager <===
+// === GAME SCENES ===
+const MainMenu = {
+    buttons: [],
+    
+    init() {
+        this.buttons = ["Start Infinite", "Start Normal"];
+    },
+    
+    update() {
+        if (!pad) return;
+        
+        pad.update();
+        
+        if (pad.justPressed(Pads.UP)) {
+            gameState.selection = (gameState.selection - 1 + this.buttons.length) % this.buttons.length;
+        }
+        
+        if (pad.justPressed(Pads.DOWN)) {
+            gameState.selection = (gameState.selection + 1) % this.buttons.length;
+        }
+        
+        if (pad.justPressed(Pads.START)) {
+            gameState.currentGameMode = gameState.selection === 0 ? GAME_MODES.INFINITE : GAME_MODES.NORMAL;
+            SceneManager.change("menu-secondary");
+        }
+    },
+    
+    render() {
+        getText("Sonic is by SEGA", 0, 0, { scale: 0.5 });
+        getText("This is a fangame made by Dev Will based on Sonic Run by JSLegendDev", 0, 15, { scale: 0.5 });
+        
+        drawMenu(font, this.buttons, gameState.selection, 362);
+    },
+    
+    exit() {
+        gameState.selection = 0;
+    }
+};
 
+const SecondaryMenu = {
+    buttons: [],
+    
+    init() {
+        this.buttons = ["Play", "Back"];
+        parallaxSystem.setLayerSpeed(1, 4.1);
+    },
+    
+    update() {
+        if (!pad) return;
+        
+        pad.update();
+        
+        if (pad.justPressed(Pads.UP)) {
+            gameState.selection = (gameState.selection - 1 + this.buttons.length) % this.buttons.length;
+        }
+        
+        if (pad.justPressed(Pads.DOWN)) {
+            gameState.selection = (gameState.selection + 1) % this.buttons.length;
+        }
+        
+        if (pad.justPressed(Pads.START)) {
+            if (gameState.selection === 0) {
+                SceneManager.change("game-play");
+            } else {
+                SceneManager.change("menu-main");
+            }
+        }
+    },
+    
+    render() {
+        parallaxSystem.update();
+        parallaxSystem.draw();
+        
+        animationManager.updateAnimation(gameState.currentAnimation, player.x, player.y);
+        animationManager.drawAnimation(gameState.currentAnimation);
+        
+        getText("Press Start to Play", 256, 140, { scale: 0.5 });
+        getText("Press X to Jump!", 262, 154, { scale: 0.5 });
+        getText(UI.TITLE, UI.getTitleX() - 40, UI.TITLE_Y, { scale: 1.4 });
+        
+        drawMenu(font, this.buttons, gameState.selection, 362);
+    },
+    
+    exit() {
+        parallaxSystem.setLayerSpeed(1, 1.5);
+        gameState.selection = 0;
+    }
+};
+
+const GameScene = {
+    init() {},
+    
+    update() {
+        if (!pad) return;
+        
+        pad.update();
+        
+        soundManager.playMusic("city");
+        
+        // Increase difficulty in infinite mode
+        if (gameState.currentGameMode === GAME_MODES.INFINITE && 
+            Timer.getTime(gameState.timer) - gameState.lastDifficultyIncrease > gameState.difficultyInterval) {
+            increaseDifficulty();
+            gameState.lastDifficultyIncrease = Timer.getTime(gameState.timer);
+        }
+        
+        // Handle jumping
+        if ((pad.btns & Pads.CROSS) && player.y + player.height >= player.floor) {
+            player.velocityY = player.jumpForce;
+            soundManager.playSfx("jump");
+        }
+        
+        // Update player physics
+        player.velocityY += player.gravity;
+        player.x += player.velocityX * gameState.gameSpeed;
+        player.y += player.velocityY;
+        
+        // Ground collision
+        if (player.y + player.height > player.floor) {
+            player.y = player.floor - player.height;
+            player.velocityY = 0;
+            player.isGrounded = true;
+        } else {
+            player.isGrounded = false;
+        }
+        
+        // Update animation based on state
+        gameState.currentAnimation = player.isGrounded ? "sonicRun" : "sonicJump";
+    },
+    
+    render() {
+        parallaxSystem.update();
+        parallaxSystem.draw();
+        
+        // Display score
+        font.print(10, 10, `SCORE: ${gameState.ringsCollected}`);
+        
+        // Update and draw rings
+        gameState.rings.forEach(ring => {
+            if (!ring.collected) {
+                animationManager.updateAnimation("ringsAnim", ring.x, ring.y);
+                animationManager.drawAnimation("ringsAnim");
+                
+                if (checkCollision(
+                    player, 
+                    ring, 
+                    { width: player.width, height: player.height },
+                    GAME_CONSTANTS.RING_SIZE
+                )) {
+                    ring.collected = true;
+                    gameState.ringsCollected++;
+                    soundManager.playSfx("ring");
+                }
+            }
+            
+            ring.x -= parallaxSystem.layers[1].speed;
+            if (ring.x < -20) {
+                respawnRing(ring);
+            }
+        });
+        
+        // Update and draw enemies
+        gameState.enemies.forEach(enemy => {
+            if (enemy.alive) {
+                animationManager.updateAnimation("motoBugAnim", enemy.x, enemy.y);
+                animationManager.drawAnimation("motoBugAnim");
+                
+                enemy.x -= enemy.speed;
+                
+                if (enemy.x < -50) {
+                    enemy.alive = false;
+                    respawnEnemy(enemy);
+                }
+                
+                // Handle collision with enemy
+                if (checkCollision(
+                    player, 
+                    enemy, 
+                    { width: player.width, height: player.height },
+                    { width: enemy.width, height: enemy.height }
+                )) {
+                    if (player.y + player.height - 10 < enemy.y) {
+                        // Jump on enemy
+                        soundManager.playSfx("destroy");
+                        gameState.ringsCollected += 10;
+                        enemy.alive = false;
+                        player.velocityY = player.jumpForce * 0.9;
+                        respawnEnemy(enemy);
+                    } else {
+                        // Game over
+                        SceneManager.change("game-over");
+                    }
+                }
+            }
+        });
+        
+        // Draw player
+        animationManager.updateAnimation(gameState.currentAnimation, player.x, player.y);
+        animationManager.drawAnimation(gameState.currentAnimation);
+    },
+    
+    exit() {
+        soundManager.pauseMusic();
+
+        // Optional garbage collection
+        if (typeof std !== "undefined" && std.gc) {
+            std.gc();
+        }
+    }
+};
+
+const GameOverScene = {
+    init() {
+        const finalScore = gameState.getFinalScore();
+        if (finalScore > gameState.highScore) {
+            gameState.highScore = finalScore;
+            gameState.saveHighScore();
+        }
+    },
+    
+    update() {
+        if (!pad) return;
+        
+        pad.update();
+        
+        if (pad.justPressed(Pads.START)) {
+            gameState.reset();
+            SceneManager.change("game-play");
+        }
+        
+        if (pad.justPressed(Pads.SELECT)) {
+            gameState.reset();
+            SceneManager.change("menu-main");
+        }
+    },
+    
+    render() {
+        const finalScore = gameState.getFinalScore();
+        
+        // Draw score panels
+        Draw.rect(50, 150, 160, 160, Color.new(255, 255, 255));
+        Draw.rect(430, 150, 160, 160, Color.new(255, 255, 255));
+        
+        Draw.rect(54, 154, 152, 152, Color.new(0, 0, 0));
+        Draw.rect(434, 154, 152, 152, Color.new(0, 0, 0));        
+        
+        // Draw text
+        font.print(UI.getTitleX() + 20, UI.TITLE_Y, "GAME OVER");
+        font.print(45, 120, `BEST SCORE: ${gameState.highScore}`);
+        font.print(405, 120, `CURRENT SCORE: ${finalScore}`);
+        
+        getText("B                        F", 120, 210, { scale: 1.5 });
+        getText("Press START to Play Again", 320 - 70, 300, { scale: 0.5 });
+        getText("Press SELECT for Main Menu", 320 - 77, 320, { scale: 0.5 });
+    },
+    
+    exit() {
+        soundManager.pauseMusic();
+    }
+};
+
+// === SCENE REGISTRATION ===
 SceneManager.register("menu-main", MainMenu);
 SceneManager.register("menu-secondary", SecondaryMenu);
 SceneManager.register("game-play", GameScene);
 SceneManager.register("game-over", GameOverScene);
 
+// === GAME INITIALIZATION ===
 SceneManager.change("menu-main");
 
-// -------------------------------------
-
+// === MAIN GAME LOOP ===
 Screen.display(() => {
     SceneManager.update();
     SceneManager.render();
