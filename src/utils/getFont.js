@@ -1,4 +1,4 @@
-// credits: 
+// CREDITS: https://www.dafont.com/mania.font
 
 export let font = new Font("assets/fonts/mania.ttf");
 
@@ -13,4 +13,5 @@ export function getText(text, x, y, options) {
     font.scale = originalScale;
 
     return size;
+
 }
