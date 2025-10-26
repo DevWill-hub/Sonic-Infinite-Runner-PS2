@@ -1,10 +1,11 @@
 export const canvas = {
     init: function() {
-        const cavasInit = Screen.getMode();
-        cavasInit.width = 640;
+        const canvasInit = Screen.getMode();
+        canvasInit.width = 640;
         cavasInit.height = 448;
-        Screen.setMode(cavasInit);
+        Screen.setMode(canvasInit);
         Screen.setVSync(true);
-        Screen.setFrameCounter(true);
+//        Screen.setFrameCounter(true);
     },
+
 };
