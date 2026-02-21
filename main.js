@@ -1,10 +1,10 @@
 /*******************************************************************************
  * 
- * SONIC INFINITY RUNNER - PS2
+ * SONIC INFINITE RUNNER - PS2
  * 
  * SOURCE CODE
  * 
- * DEVOLOPED WITH: AthenaEnv Engine
+ * DEVOLOPED WITH: Environment AthenaEnv
  * DEVELOPED BY: Dev Will
  * BASED ON: Sonic Run by JSLegendDev
  * SONIC CHARACTER © SEGA
@@ -14,10 +14,10 @@
  ******************************************************************************/
 
 // === IMPORTS ===
-import { SceneManager } from "./src/core/scenemanager.js";
-import { getText, font } from "./src/utils/getFont.js";
-import { Sprite } from "./src/utils/sprite.js";
-import { canvas } from "./src/core/canvas.js";
+import { SceneManager }  from "./source/core/scenemanager.js";
+import { font, getText } from "./source/util/getFont.js";
+import { Sprite } from "./source/util/sprite.js";
+import { canvas } from "./source/core/canvas.js";
 
 // === INITIALIZATION ===
 canvas.init();
@@ -31,21 +31,21 @@ const GAME_CONSTANTS = {
     DIFFICULTY_INCREASE_INTERVAL: 3000000,
     DAY_NIGHT_CYCLE: 120000000,
     TRANSITION_DURATION: 5000000,
-    SCREEN_WIDTH: 640,
-    SCREEN_HEIGHT: 448
+    SCREEN_WIDTH: canvas.canvasMode.width,
+    SCREEN_HEIGHT: canvas.canvasMode.height
 };
 
 // === SOUND SYSTEM ===
 class SoundManager {
     constructor() {
         this.music = {
-            city: Sound.Stream("assets/sounds/music/city.wav")
+            city: Sound.Stream("sounds/city.wav")
         };
         
         this.sfx = {
-            destroy: Sound.Sfx("assets/sounds/sfx/destroy.adp"),
-            jump: Sound.Sfx("assets/sounds/sfx/jump.adp"),
-            ring: Sound.Sfx("assets/sounds/sfx/ring.adp")
+            destroy: Sound.Sfx("sounds/destroy.adp"),
+            jump: Sound.Sfx("sounds/jump.adp"),
+            ring: Sound.Sfx("sounds/ring.adp")
         };
         
         this.isMuted = false;
@@ -112,7 +112,7 @@ class AnimationManager {
     }
     
     createSonicRun() {
-        const sprite = new Sprite("assets/sprites/sonic/sonic.png", player.x, player.y, [
+        const sprite = new Sprite("graphics/sonic.png", player.x, player.y, [
             {
                 imageOffsetX: 0,
                 imageOffsetY: 8,
@@ -126,7 +126,7 @@ class AnimationManager {
     }
     
     createSonicJump() {
-        const sprite = new Sprite("assets/sprites/sonic/sonic.png", player.x, player.y, [
+        const sprite = new Sprite("graphics/sonic.png", player.x, player.y, [
             {
                 imageOffsetX: 0,
                 imageOffsetY: 53,
@@ -140,7 +140,7 @@ class AnimationManager {
     }
     
     createRingsAnim() {
-        const sprite = new Sprite("assets/sprites/items/ring.png", 0, 0, [
+        const sprite = new Sprite("graphics/ring.png", 0, 0, [
             {
                 imageOffsetX: 0,
                 imageOffsetY: 0,
@@ -154,7 +154,7 @@ class AnimationManager {
     }
     
     createMotoBugAnim() {
-        const sprite = new Sprite("assets/sprites/enemies/motobug.png", 0, 0, [
+        const sprite = new Sprite("graphics/motobug.png", 0, 0, [
             {
                 imageOffsetX: 0,
                 imageOffsetY: 1,
@@ -193,8 +193,8 @@ const animationManager = new AnimationManager();
 // === DAY/NIGHT SYSTEM ===
 class DayNightSystem {
     constructor() {
-        this.dayBackground = new Image("assets/bg/bg1.png");
-        this.nightBackground = new Image("assets/bg/bg3.png");
+        this.dayBackground = new Image("graphics/chemical_bg_standard.png");
+        this.nightBackground = new Image("graphics/chemical_bg_transition.png");
         
         this.cycleDuration = GAME_CONSTANTS.DAY_NIGHT_CYCLE;
         this.transitionDuration = GAME_CONSTANTS.TRANSITION_DURATION;
@@ -292,7 +292,7 @@ class ParallaxSystem {
                 width: 1163
             },
             {
-                image: new Image("assets/bg/bg2.png"),
+                image: new Image("graphics/platforms.png"),
                 speed: 1.5,
                 x: 0,
                 y: 369,
@@ -521,7 +521,7 @@ const MainMenu = {
         
         if (pad.justPressed(Pads.START)) {
             gameState.currentGameMode = gameState.selection === 0 ? GAME_MODES.INFINITE : GAME_MODES.NORMAL;
-            SceneManager.change("menu-secondary");
+            SceneManager.change("menu_secondary");
         }
     },
     
@@ -560,9 +560,9 @@ const SecondaryMenu = {
         
         if (pad.justPressed(Pads.START)) {
             if (gameState.selection === 0) {
-                SceneManager.change("game-play");
+                SceneManager.change("game_play");
             } else {
-                SceneManager.change("menu-main");
+                SceneManager.change("menu_main");
             }
         }
     },
@@ -688,7 +688,7 @@ const GameScene = {
                         respawnEnemy(enemy);
                     } else {
                         // Game over
-                        SceneManager.change("game-over");
+                        SceneManager.change("game_over");
                     }
                 }
             }
@@ -725,12 +725,12 @@ const GameOverScene = {
         
         if (pad.justPressed(Pads.START)) {
             gameState.reset();
-            SceneManager.change("game-play");
+            SceneManager.change("game_play");
         }
         
         if (pad.justPressed(Pads.SELECT)) {
             gameState.reset();
-            SceneManager.change("menu-main");
+            SceneManager.change("menu_main");
         }
     },
     
@@ -760,13 +760,13 @@ const GameOverScene = {
 };
 
 // === SCENE REGISTRATION ===
-SceneManager.register("menu-main", MainMenu);
-SceneManager.register("menu-secondary", SecondaryMenu);
-SceneManager.register("game-play", GameScene);
-SceneManager.register("game-over", GameOverScene);
+SceneManager.register("menu_main", MainMenu);
+SceneManager.register("menu_secondary", SecondaryMenu);
+SceneManager.register("game_play", GameScene);
+SceneManager.register("game_over", GameOverScene);
 
 // === GAME INITIALIZATION ===
-SceneManager.change("menu-main");
+SceneManager.change("menu_main");
 
 // === MAIN GAME LOOP ===
 Screen.display(() => {
