@@ -7,16 +7,16 @@
 ## Demonstração
 
 ### Gameplay
-![gameplay-demo](https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2/blob/main/assets/demo/gameplay.gif)
+![gameplay-demo](https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2/blob/main/github/gameplay.gif)
 
 ## Screenshots
 
 ### Menu Principal
-<img src="https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2/blob/main/assets/docs/main-menu.png" width="400" alt="Menu Principal">
+<img src="https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2/blob/main/github/menu.png" width="400" alt="Menu Principal">
 
 ### Cenários
-**Dia**  
-<img src="https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2/blob/main/assets/docs/day-bg.png" width="400" alt="Cenário Diurno">
+**Padrão**  
+<img src="https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2/blob/main/github/bg_standard.png" width="400" alt="Cenário Padrão">
 
-**Noite**  
-<img src="https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2/blob/main/assets/docs/night-bg.png" width="400" alt="Cenário Noturno">
+**Transição**  
+<img src="https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2/blob/main/github/bg_transition.png" width="400" alt="Cenário de Transição">

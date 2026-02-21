@@ -4,10 +4,9 @@
 
 Um jogo de corrida infinita no estilo do icônico ouriço azul. Inspirado no “T‑Rex Game” do Chrome, mas com a velocidade e os anéis do Sonic.
 
-Projeto originalmente criado em **JavaScript & TypeScript** com a biblioteca [Kaplayjs](https://github.com/kaplayjs/kaplay), recriado para a engine [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv), trazendo a experiência de um endless runner simples, porém com mecânicas inspiradas nos clássicos jogos do Sonic.
+Projeto originalmente criado em **JavaScript & TypeScript** com a biblioteca [Kaplayjs](https://github.com/kaplayjs/kaplay), recriado para o ambiente [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv), trazendo a experiência de um endless runner simples, porém com mecânicas inspiradas nos clássicos jogos do Sonic.
 
-
-[![🎮 Game Preview](https://img.shields.io/badge/🎮-Game_Preview-blue?style=for-the-badge&logo=AthenaEnv&logoColor=white)](PREVIEW.md)
+[![🎮 Game Preview](https://img.shields.io/badge/🎮-Ver_Preview-blue?style=for-the-badge)](PREVIEW.md)
 
 ### O jogo conta com dois modos distintos
 
@@ -18,32 +17,51 @@ Projeto originalmente criado em **JavaScript & TypeScript** com a biblioteca [Ka
   Versão infinita sem aumento de dificuldade, mantendo velocidade constante. Ideal para praticar e se familiarizar com controles e mecânicas antes de encarar o modo Infinito.
 
 ## Como jogar
-Você precisará de um emulador de PlayStation 2 (como [PCSX2](https://pcsx2.net/)) ou de um console com suporte para homebrew (como [wLaunchELF](https://israpps.github.io/projects/wlaunchelf-isr) ou [OPL](https://github.com/ps2homebrew/Open-PS2-Loader/releases/tag/v1.1.0)).
+
+Você pode jogar no **PlayStation 2 original** (com homebrew) ou em **emuladores** como [PCSX2](https://pcsx2.net/) (PC) e [AetherSX2](https://www.aethersx2.com.br/) (Android).
 
 ### 1. Baixe o jogo
-Acesse a [**Página de Lançamentos**](https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2/releases/tag/Versions) e baixe o formato de sua preferência.
+Acesse a [**Página de Lançamentos**](https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2/releases/tag/Versions) e baixe a versão desejada (ISO ou ELF).
 
 ### 2. Executando o jogo
 
-#### Em um emulador (PCSX2 / AetherSX2)
-**Versão ISO:** Carregue o arquivo `.iso` diretamente no emulador.
+#### Emulador (PCSX2 / AetherSX2)
 
-**Versão ELF:** Habilite "Sistema de Arquivos Host" nas configurações do PCSX2 e execute o arquivo `.elf` em `Sistema > Executar ELF...`.
+**Versão ISO:**
+- Carregue o arquivo `.iso` diretamente no emulador (igual qualquer jogo de PS2).
 
-> Nota: O emulador **AetherSX2** não suporta o carregamento do `.elf` do athena, mas apenas a **versão ELF**, a **versão ISO** você pode jogar normalmente.
+**Versão ELF (PCSX2 apenas):**
+- Descompacte o arquivo `.zip` baixado.
+- Habilite o **Sistema de Arquivos Host** nas configurações do emulador.
+- Vá em `Sistema > Executar ELF...` e selecione o arquivo `.elf` extraído.
 
-#### No hardware original (PS2)
-**Versão ISO (via OPL):** Coloque o arquivo `.iso` na sua pasta `DVD` e execute com OPL.
+> **AetherSX2 não suporta arquivos ELF** por não oferecer o recurso de "Host Filesystem" (necessário para o AthenaEnv). Use a versão ISO neste caso.
 
-**Versão ELF (via uLaunchELF):** Execute o arquivo `.elf` do seu pendrive usando o uLaunchELF.
+#### PlayStation 2 original
+
+**Versão ISO (via OPL):**
+- Copie o arquivo `.iso` para a pasta `DVD` no seu dispositivo de armazenamento (recomendado: USB) e execute pelo [OPL](https://github.com/ps2homebrew/Open-PS2-Loader).
+
+**Versão ELF (via wLaunchELF):**
+- Descompacte o `.zip` e copie a pasta do jogo para a raiz do seu pendrive.
+- Execute o [wLaunchELF](https://israpps.github.io/projects/wlaunchelf-isr), navegue até o arquivo `.elf` e pressione **X** para iniciar.
+
+> Você pode usar qualquer outro executor de ELF compatível com PS2, desde que o AthenaEnv funcione corretamente.
 
 ## Controles
 
-| Botão             | Ação                  |
-| ------------------ | ----------------------- |
-| **D-Pad / LEFT DOWN** | Mover Cursor         |
-| **X Button**       | Jump                    |
-| **START**          | Confirmar Ação             |
+### Menu de Seleção
+| Botão | Ação |
+|-------|------|
+| **D-Pad (CIMA/BAIXO)** | Navegar entre as opções |
+| **START** | Confirmar modo de jogo |
+
+### Durante o Jogo
+| Botão | Ação |
+|-------|------|
+| **Botão X** | Pular |
+
+> **Nota:** No menu secundário, uma dica logo em baixo da logo (Sonic Ring Run) indica que o **Botão X** é usado para pular durante o jogo.
 
 ## Status do Projeto
 
@@ -60,7 +78,7 @@ O projeto está finalizado com todas as funcionalidades principais implementadas
 
 ## Créditos
 
-- [AthenaEnv](https://github.com/DanielSant0s/AthenaEnv): Engine utilizada para a criação de aplicativos e jogos em JS para o PlayStation 2, por [DanielSantos](https://github.com/DanielSant0s).
-- Versão Original: Criando por [JSLegendDev](https://github.com/JSLegendDev)
-- Fonte: [ManiaFont](https://www.dafont.com/mania.font)
-- Port PS2: [Dev Will](https://github.com/DevWill-hub)
+- **[AthenaEnv](https://github.com/DanielSant0s/AthenaEnv)** – Ambiente de execução JavaScript para criação de aplicativos e jogos para o PlayStation 2, desenvolvido por [DanielSantos](https://github.com/DanielSant0s).  
+- **[Sonic Ring Run (Original)](https://jslegend.itch.io/sonic-ring-run)** – Jogo original criado por [JSLegendDev](https://github.com/JSLegendDev).  
+- **[ManiaFont](https://www.dafont.com/mania.font)** – Fonte utilizada no projeto.  
+- **Autor** – [Dev Will](https://github.com/DevWill-hub).
